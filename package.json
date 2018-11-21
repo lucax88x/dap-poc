@@ -1,0 +1,8 @@
+{
+  "name": "dap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://triman.visualstudio.com/_git/Garaio_REM_DAP",
+  "author": "lucatrazzi <lucax88x@gmail.com>",
+  "license": "MIT"
+}
