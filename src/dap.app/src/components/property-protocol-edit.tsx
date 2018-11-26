@@ -1,8 +1,8 @@
 import { createStyles, Theme, WithStyles, withStyles } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { IPropertyModel } from '../models/property.model';
-import { Link } from 'react-router-dom';
 
 export interface IPropertyProtocolEditProps {
   properties: IPropertyModel[];
@@ -22,8 +22,13 @@ class PropertyProtocolEditComponent extends React.PureComponent<
   IPropertyProtocolEditProps & WithStyles<typeof styles>
 > {
   public render() {
-    return <React.Fragment>
-    <Link color="white" to="/">back</Link></React.Fragment>;
+    return (
+      <React.Fragment>
+        <Link color="white" to="/">
+          back
+        </Link>
+      </React.Fragment>
+    );
   }
 }
 

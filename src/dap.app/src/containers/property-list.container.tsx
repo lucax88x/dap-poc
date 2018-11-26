@@ -9,10 +9,16 @@ import {
   IPropertyListProps,
   PropertyList
 } from '../components/property-list';
-import { selectProperties } from '../selectors/property-list.selectors';
+import {
+  selectIsBusy,
+  selectProperties
+} from '../selectors/property-list.selectors';
+import { selectIsOnline } from '../selectors/top-bar.selectors';
 import { IState } from '../states/state';
 
 const mapStateToProps = (state: IState): IPropertyListProps => ({
+  isOnline: selectIsOnline(state),
+  isBusy: selectIsBusy(state),
   properties: selectProperties(state)
 });
 

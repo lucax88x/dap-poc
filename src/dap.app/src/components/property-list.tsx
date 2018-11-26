@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   createStyles,
   Grid,
   List,
@@ -19,6 +20,8 @@ import React from 'react';
 import { IPropertyModel } from '../models/property.model';
 
 export interface IPropertyListProps {
+  isOnline: boolean;
+  isBusy: boolean;
   properties: IPropertyModel[];
 }
 
@@ -34,6 +37,11 @@ const styles = (theme: Theme) =>
     },
     grow: {
       flexGrow: 1
+    },
+    center: {
+      flexGrow: 1,
+      display: 'flex',
+      justifyContent: 'center'
     }
   });
 
@@ -41,7 +49,7 @@ class PropertyListComponent extends React.PureComponent<
   IPropertyListProps & IPropertyListDispatches & WithStyles<typeof styles>
 > {
   public render() {
-    const { properties, classes } = this.props;
+    const { classes, properties, isBusy, isOnline } = this.props;
 
     const rows = map(
       property => (
@@ -60,19 +68,26 @@ class PropertyListComponent extends React.PureComponent<
       <Grid container className={classes.container}>
         <Grid container item xs={12} justify="center" alignItems="flex-end">
           <Grid item>
-            <SearchIcon color="inherit" />
+            <SearchIcon color="primary" />
           </Grid>
           <Grid item>
             <TextField
               label="Type here to search"
               type="search"
               margin="normal"
+              disabled={!isOnline}
               onChange={this.onSearchProperties}
             />
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <List className={classes.grow}>{rows}</List>
+          {isBusy ? (
+            <div className={classes.center}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <List>{rows}</List>
+          )}
         </Grid>
       </Grid>
     );
