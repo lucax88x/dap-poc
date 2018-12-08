@@ -1,6 +1,5 @@
 import {
   Button,
-  CircularProgress,
   createStyles,
   Grid,
   List,
@@ -17,7 +16,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import { map } from 'ramda';
 import React from 'react';
 
+import { UUID } from '../code/uuid';
 import { IPropertyModel } from '../models/property.model';
+import { Spinner } from './spinner';
 
 export interface IPropertyListProps {
   isOnline: boolean;
@@ -27,7 +28,9 @@ export interface IPropertyListProps {
 
 export interface IPropertyListDispatches {
   searchProperties: (filter: string) => void;
-  startProtocol: () => void;
+  startProtocol: (id: UUID) => void;
+  resumeProtocol: (id: UUID) => void;
+  reviewProtocol: (id: UUID) => void;
 }
 
 const styles = (theme: Theme) =>
@@ -37,11 +40,6 @@ const styles = (theme: Theme) =>
     },
     grow: {
       flexGrow: 1
-    },
-    center: {
-      flexGrow: 1,
-      display: 'flex',
-      justifyContent: 'center'
     }
   });
 
@@ -57,7 +55,21 @@ class PropertyListComponent extends React.PureComponent<
           <HomeIcon color="action" />
           <ListItemText primary={property.address} />
           <ListItemSecondaryAction>
-            <Button onClick={this.onStartProtocol}>start protocol</Button>
+            {(!property.hasProtocol || property.hasCompletedProtocol) && (
+              <Button onClick={this.onStartProtocol(property.id)}>
+                start protocol
+              </Button>
+            )}
+            {property.hasProtocol && !property.hasCompletedProtocol && (
+              <Button onClick={this.onResumeProtocol(property.id)}>
+                resume protocol
+              </Button>
+            )}
+            {property.hasCompletedProtocol && (
+              <Button onClick={this.onReviewProtocol(property.id)}>
+                review
+              </Button>
+            )}
           </ListItemSecondaryAction>
         </ListItem>
       ),
@@ -81,13 +93,7 @@ class PropertyListComponent extends React.PureComponent<
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          {isBusy ? (
-            <div className={classes.center}>
-              <CircularProgress />
-            </div>
-          ) : (
-            <List>{rows}</List>
-          )}
+          {isBusy ? <Spinner /> : <List>{rows}</List>}
         </Grid>
       </Grid>
     );
@@ -97,8 +103,16 @@ class PropertyListComponent extends React.PureComponent<
     this.props.searchProperties(evt.target.value);
   };
 
-  private onStartProtocol = (evt: React.MouseEvent) => {
-    this.props.startProtocol();
+  private onStartProtocol = (id: UUID) => (evt: React.MouseEvent) => {
+    this.props.startProtocol(id);
+  };
+
+  private onResumeProtocol = (id: UUID) => (evt: React.MouseEvent) => {
+    this.props.resumeProtocol(id);
+  };
+
+  private onReviewProtocol = (id: UUID) => (evt: React.MouseEvent) => {
+    this.props.reviewProtocol(id);
   };
 }
 

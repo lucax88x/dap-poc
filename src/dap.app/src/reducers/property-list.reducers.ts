@@ -2,6 +2,7 @@ import { produce } from 'immer';
 
 import { PropertyListActions } from '../actions';
 import {
+  CLEAR_PROPERTIES,
   GET_PROPERTIES,
   GET_PROPERTIES_ERROR,
   GET_PROPERTIES_SUCCESS
@@ -19,6 +20,9 @@ export const propertyListReducers = (
 ): IPropertyListState =>
   produce(state, draft => {
     switch (action.type) {
+      case CLEAR_PROPERTIES:
+        draft.properties = [];
+        return;
       case GET_PROPERTIES:
         draft.isBusy = true;
         draft.properties = [];

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DAP.Infra.Property;
+using DAP.Infra.Protocol;
 
 namespace DAP.Infra.Ioc
 {
@@ -15,6 +16,14 @@ namespace DAP.Infra.Ioc
             
             builder.RegisterType<PropertyReadRepository>()
                 .As<IPropertyReadRepository>()
+                .SingleInstance();
+            
+            builder.RegisterType<ProtocolWriteRepository>()
+                .As<IProtocolWriteRepository>()
+                .SingleInstance();
+            
+            builder.RegisterType<ProtocolReadRepository>()
+                .As<IProtocolReadRepository>()
                 .SingleInstance();
         }
     }

@@ -8,12 +8,16 @@ import {
 } from '@material-ui/core';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
+import { SnackbarProvider } from 'notistack';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { spring } from 'react-motion';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { AnimatedSwitch, IAnimatedSwitchTransition } from 'react-router-transition';
+import {
+  AnimatedSwitch,
+  IAnimatedSwitchTransition
+} from 'react-router-transition';
 import { applyMiddleware, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
@@ -22,14 +26,18 @@ import { fromEvent, merge, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
 import { Actions } from './actions';
+import { enqueueSnackarAction } from './actions/notification-manager.actions';
 import { isOfflineAction, isOnlineAction } from './actions/top-bar.actions';
+import { Routes } from './code/routes';
+import { NotificationManagerContainer } from './containers/notification-manager.container';
 import { PropertyListContainer } from './containers/property-list.container';
 import { PropertyProtocolEditContainer } from './containers/property-protocol-edit.container';
+import { PropertyProtocolReviewContainer } from './containers/property-protocol-review.container';
 import { TopBarContainer } from './containers/top-bar.container';
 import { rootEpics } from './epics';
 import { rootReducers } from './reducers';
 import * as serviceWorker from './serviceWorker';
-import { States } from './states/state';
+import { IState } from './states/state';
 
 const theme = createMuiTheme({
   typography: {
@@ -44,10 +52,10 @@ const logger = createLogger({
   collapsed: true
 });
 
-const epicMiddleware = createEpicMiddleware<Actions, Actions, States>();
+const epicMiddleware = createEpicMiddleware<Actions, Actions, IState>();
 const history = createBrowserHistory();
 
-const store: Store = createStore(
+export const store: Store = createStore<IState, Actions, {}, {}>(
   rootReducers(history),
   composeWithDevTools(
     applyMiddleware(routerMiddleware(history), epicMiddleware, logger)
@@ -65,8 +73,8 @@ function mapStyles(styles: IAnimatedSwitchTransition) {
 
 function glide(val: number) {
   return spring(val, {
-    stiffness: 174,
-    damping: 24
+    stiffness: 140,
+    damping: 35
   });
 }
 
@@ -90,16 +98,38 @@ ReactDOM.render(
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <TopBarContainer />
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+      >
+        <NotificationManagerContainer />
+      </SnackbarProvider>
+
       <ConnectedRouter history={history}>
         <AnimatedSwitch
           {...pageTransitions}
           mapStyles={mapStyles}
           className="switch-wrapper"
         >
-          <Route exact={true} path="/" component={PropertyListContainer} />
           <Route
-            path="/protocol/create"
+            exact={true}
+            path={Routes.Home}
+            component={PropertyListContainer}
+          />
+          <Route
+            path={Routes.Protocol.Start}
             component={PropertyProtocolEditContainer}
+          />
+          <Route
+            path={Routes.Protocol.Resume}
+            component={PropertyProtocolEditContainer}
+          />
+          <Route
+            path={Routes.Protocol.Review}
+            component={PropertyProtocolReviewContainer}
           />
         </AnimatedSwitch>
       </ConnectedRouter>
@@ -116,7 +146,16 @@ merge(
   store.dispatch(online ? isOnlineAction() : isOfflineAction())
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register({
+  onSuccess: () => {
+    store.dispatch(enqueueSnackarAction('Content is cached for offline use.'));
+  },
+  onUpdate: () => {
+    store.dispatch(
+      enqueueSnackarAction(
+        'New content is available and will be used when all tabs for this page are closed.',
+        { variant: 'warning' }
+      )
+    );
+  }
+});

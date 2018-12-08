@@ -1,18 +1,17 @@
 using System;
-using System.Net.Sockets;
 using DAP.Core.Interfaces;
 
 namespace DAP.Application.Property.Commands
 {
-    public class CreateProperty : Command<Guid>
+    public class CreateProperty : Command<Domain.Property>
     {
-        public Guid Id { get; }
         public string Address { get; }
-        
+        public Guid Id { get; }
+
         public CreateProperty(string address, Guid? id = null)
         {
-            Id = !id.HasValue || id.Value == Guid.Empty ? Guid.NewGuid() : id.Value;
             Address = address;
+            Id = !id.HasValue || id.Value == Guid.Empty ? Guid.NewGuid() : id.Value;
         }
     }
 }

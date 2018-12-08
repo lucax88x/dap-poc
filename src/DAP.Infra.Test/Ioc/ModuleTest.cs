@@ -1,5 +1,6 @@
 ﻿using System;
 using DAP.Infra.Property;
+using DAP.Infra.Protocol;
 using DAP.Test.Common;
 using Xunit;
 
@@ -28,6 +29,18 @@ namespace DAP.Infra.Test.Ioc
         public void should_resolve_IPropertyReadRepository()
         {
             _scopeResolver.IsSingleInstance<IPropertyReadRepository, PropertyReadRepository>();
+        }
+        
+        [Fact]
+        public void should_resolve_IProtocolWriteRepository()
+        {
+            _scopeResolver.IsSingleInstance<IProtocolWriteRepository, ProtocolWriteRepository>();
+        }
+        
+        [Fact]
+        public void should_resolve_IProtocolReadRepository()
+        {
+            _scopeResolver.IsSingleInstance<IProtocolReadRepository, ProtocolReadRepository>();
         }
 
         public void Dispose()

@@ -1,7 +1,8 @@
 ﻿using System;
 using Autofac;
 using DAP.Web.Api.GraphQL;
-using DAP.Web.Api.GraphQL.Types;
+using DAP.Web.Api.GraphQL.Property;
+using DAP.Web.Api.GraphQL.Protocol;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
@@ -31,12 +32,7 @@ namespace DAP.Web.Api.Ioc
             builder.RegisterInstance(new DocumentExecuter()).As<IDocumentExecuter>();
             builder.RegisterInstance(new DocumentWriter()).As<IDocumentWriter>();
 
-            builder.RegisterType<PropertyType>()
-                .AsSelf();
-            builder.RegisterType<PropertyQuery>()
-                .AsSelf();
-            builder.RegisterType<PropertySchema>()
-                .As<ISchema>();
+            RegisterGraphQlSchema(builder);
 
             builder.Register<Func<Type, GraphType>>(c =>
             {
@@ -53,6 +49,24 @@ namespace DAP.Web.Api.Ioc
                 var context = c.Resolve<IComponentContext>();
                 return new FuncDependencyResolver(type => context.Resolve(type));
             });
+        }
+
+        private static void RegisterGraphQlSchema(ContainerBuilder builder)
+        {
+            builder.RegisterType<DapQuery>()
+                .AsSelf();
+            builder.RegisterType<DapMutation>()
+                .AsSelf();
+            builder.RegisterType<DapSchema>()
+                .As<ISchema>();
+            
+            builder.RegisterType<PropertyType>()
+                .AsSelf();
+
+            builder.RegisterType<ProtocolType>()
+                .AsSelf();
+            builder.RegisterType<ProtocolInputType>()
+                .AsSelf();
         }
     }
 }

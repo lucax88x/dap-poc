@@ -41,12 +41,21 @@ namespace DAP.Web.App
                 }
             });
 
-            // TODO AVOID CACHING SERVICE-WORKER TODO
             app.UseFileServer(new FileServerOptions
             {
                 StaticFileOptions =
                 {
-                    OnPrepareResponse = ctx => { ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600"); }
+                    OnPrepareResponse = ctx =>
+                    {
+                        if (ctx.File.Name == "service-worker.js")
+                        {
+                            ctx.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store, must-revalidate");
+                        }
+                        else
+                        {
+                            ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+                        }
+                    }
                 }
             });
         }

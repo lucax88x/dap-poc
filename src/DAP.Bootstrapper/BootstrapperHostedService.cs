@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DAP.Application.Property.Commands;
@@ -23,11 +22,11 @@ namespace DAP.Bootstrapper
         {
             _logger.Information("Starting Bootstrapper Service");
 
-            await _mediator.Send(new CreateProperty("Bolligerstrasse 5, Ostermundigen, Villa Frei", Guid.NewGuid()), cancellationToken);
-            await _mediator.Send(new CreateProperty("Bernstrasse 11, Ostermundigen, Apartment 2b", Guid.NewGuid()), cancellationToken);
-            await _mediator.Send(new CreateProperty("Umfahrungsstrasse 102, Ostermundigen, Apartment 3a", Guid.NewGuid()), cancellationToken);
-            await _mediator.Send(new CreateProperty("Laupenstrasse 147, Bern, Büro GARAIO", Guid.NewGuid()), cancellationToken);
-            await _mediator.Send(new CreateProperty("Gartenstrasse 1, Bern, Office GARAIO", Guid.NewGuid()), cancellationToken);
+            await _mediator.Send(new CreateProperty("Bolligerstrasse 5, Ostermundigen, Villa Frei"), cancellationToken);
+            await _mediator.Send(new CreateProperty("Bernstrasse 11, Ostermundigen, Apartment 2b"), cancellationToken);
+            await _mediator.Send(new CreateProperty("Umfahrungsstrasse 102, Ostermundigen, Apartment 3a"), cancellationToken);
+            await _mediator.Send(new CreateProperty("Laupenstrasse 147, Bern, Büro GARAIO"), cancellationToken);
+            await _mediator.Send(new CreateProperty("Gartenstrasse 1, Bern, Office GARAIO"), cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

@@ -1,9 +1,10 @@
-import { push, RouterAction } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { PropertyListActions } from '../actions';
+import { Actions } from '../actions';
 import { getPropertiesAction } from '../actions/property-list.actions';
+import { Routes } from '../code/routes';
 import {
   IPropertyListDispatches,
   IPropertyListProps,
@@ -23,10 +24,33 @@ const mapStateToProps = (state: IState): IPropertyListProps => ({
 });
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<PropertyListActions | RouterAction>
+  dispatch: Dispatch<Actions>
 ): IPropertyListDispatches => ({
   searchProperties: (filter: string) => dispatch(getPropertiesAction(filter)),
-  startProtocol: () => dispatch(push('/protocol/create'))
+  startProtocol: id =>
+    dispatch(
+      push(
+        Routes.MapTo(Routes.Protocol.Start, {
+          propertyId: id.toString()
+        })
+      )
+    ),
+  resumeProtocol: id =>
+    dispatch(
+      push(
+        Routes.MapTo(Routes.Protocol.Resume, {
+          propertyId: id.toString()
+        })
+      )
+    ),
+  reviewProtocol: id =>
+    dispatch(
+      push(
+        Routes.MapTo(Routes.Protocol.Review, {
+          propertyId: id.toString()
+        })
+      )
+    )
 });
 
 export const PropertyListContainer = connect(

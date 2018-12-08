@@ -51,11 +51,11 @@ wwwroot/
 **/yarn-debug.log*
 **/yarn-error.log*
 
-src/app/build
+src/dap.app/build
 
 # misc
-src/app/.DS_Store
-src/app/.env.local
-src/app/.env.development.local
-src/app/.env.test.local
-src/app/.env.production.local
+src/dap.app/.DS_Store
+src/dap.app/.env.local
+src/dap.app/.env.development.local
+src/dap.app/.env.test.local
+src/dap.app/.env.production.local

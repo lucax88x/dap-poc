@@ -3,9 +3,13 @@ import { Observable } from 'rxjs';
 
 import { AxiosSubscriber } from './axios.subscriber';
 
+export interface IGraphQlError {
+  message: string;
+}
+
 export interface IGraphQlResponse<T> {
   data: T;
-  errors?: { message: string }[];
+  errors?: IGraphQlError[];
 }
 
 class Rxios {

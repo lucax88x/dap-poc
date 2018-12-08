@@ -1,5 +1,6 @@
 ﻿using System;
 using DAP.Application.Property;
+using DAP.Application.Protocol;
 using DAP.Config.Ioc;
 using DAP.Test.Common;
 using Xunit;
@@ -29,6 +30,18 @@ namespace DAP.Application.Test.Ioc
         public void should_resolve_PropertyProjection()
         {
             _scopeResolver.IsInstancePerLifetimeScope<PropertyProjection>();
+        }
+        
+        [Fact]
+        public void should_resolve_ProtocolService()
+        {
+            _scopeResolver.IsInstancePerLifetimeScope<ProtocolService>();
+        }
+        
+        [Fact]
+        public void should_resolve_ProtocolProjection()
+        {
+            _scopeResolver.IsInstancePerLifetimeScope<ProtocolProjection>();
         }
 
         public void Dispose()

@@ -1,0 +1,20 @@
+*.md
+
+Dockerfile
+
+# Logs
+logs
+*.log
+
+# C#
+**/bin/
+**/obj/
+**/packages/
+**/.vs/
+
+# User-specific stuff:
+.idea/
+*.iml
+
+# TS
+**/node_modules/

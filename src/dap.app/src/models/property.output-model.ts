@@ -1,4 +1,5 @@
 export interface IPropertyOutputModel {
-  id?: string;
+  id: string;
   address: string;
+  protocol: { completed: boolean };
 }

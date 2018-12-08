@@ -9,7 +9,8 @@ using MediatR;
 namespace DAP.Application.Property
 {
     public class PropertyProjection :
-        IRequestHandler<GetPropertiesByFilter, ImmutableArray<PropertyDto>>
+        IRequestHandler<GetProperty, Domain.Property>,
+        IRequestHandler<GetPropertiesByFilter, ImmutableArray<Domain.Property>>
     {
         private readonly IConnectionFactory _connectionFactory;
         private readonly IPropertyReadRepository _propertyReadRepository;
@@ -20,13 +21,17 @@ namespace DAP.Application.Property
             _propertyReadRepository = propertyReadRepository;
         }
 
-        public async Task<ImmutableArray<PropertyDto>> Handle(GetPropertiesByFilter request,
+        public async Task<Domain.Property> Handle(GetProperty request, CancellationToken cancellationToken)
+        {
+            using (var session = _connectionFactory.Store.OpenAsyncSession())
+                return await _propertyReadRepository.Get(session, request.Id, cancellationToken);
+        }
+
+        public async Task<ImmutableArray<Domain.Property>> Handle(GetPropertiesByFilter request,
             CancellationToken cancellationToken)
         {
             using (var session = _connectionFactory.Store.OpenAsyncSession())
-            {
-                return await _propertyReadRepository.Get(session, request.Filter);
-            }
+                return await _propertyReadRepository.Get(session, request.Filter, cancellationToken);
         }
     }
 }
