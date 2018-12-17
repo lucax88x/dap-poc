@@ -52,73 +52,70 @@ export const propertyProtocolEditReducers = (
         draft.property = null;
         draft.protocol = null;
         draft.hasStarted = false;
-        return;
+        break;
 
       case PREVIOUS_STEP:
         draft.activeStep--;
         draft.activeStep = max(draft.activeStep, 0);
-        return;
+        break;
       case NEXT_STEP:
         draft.activeStep++;
         draft.activeStep = min(draft.steps.length, draft.activeStep);
         draft.hasStarted = true;
-        return;
+        break;
       case GO_TO_STEP:
         draft.activeStep = action.payload;
         draft.hasStarted = true;
-        return;
+        break;
 
       case GET_PROPERTY:
         draft.isPropertyBusy = true;
         draft.property = null;
-        return;
+        break;
       case GET_PROPERTY_SUCCESS:
         draft.isPropertyBusy = false;
         draft.property = action.payload;
-        return;
+        break;
       case GET_PROPERTY_ERROR:
         draft.isPropertyBusy = false;
-        return;
+        break;
 
       case GET_PROTOCOL:
         draft.isProtocolBusy = true;
         draft.protocol = null;
-        return;
+        break;
       case GET_PROTOCOL_SUCCESS:
         draft.isProtocolBusy = false;
         draft.protocol = action.payload;
-        return;
+        break;
       case GET_PROTOCOL_ERROR:
         draft.isProtocolBusy = false;
-        return;
+        break;
 
       case SAVE_STEP:
         draft.isSaveBusy = true;
-        return;
+        break;
       case SAVE_STEP_SUCCESS:
         draft.isSaveBusy = false;
         draft.protocol = action.payload;
-        return;
+        break;
       case SAVE_STEP_ERROR:
         draft.isSaveBusy = false;
-        return;
+        break;
 
       case SKIP_SAVE_STEP:
         draft.protocol = fromInput(action.payload);
-        return;
+        break;
 
       case COMPLETE_PROTOCOL:
         draft.isCompleteBusy = true;
-        return;
+        break;
       case COMPLETE_PROTOCOL_SUCCESS:
         draft.isCompleteBusy = false;
         draft.protocol = action.payload;
-        return;
+        break;
       case COMPLETE_PROTOCOL_ERROR:
         draft.isCompleteBusy = false;
-        return;
-
-      default:
-        return state;
+        break;
     }
   });

@@ -16,11 +16,9 @@ export const topBarReducers = (
     switch (action.type) {
       case IS_ONLINE:
         draft.isOnline = true;
-        return;
+        break;
       case IS_OFFLINE:
         draft.isOnline = false;
-        return;
-      default:
-        return state;
+        break;
     }
   });

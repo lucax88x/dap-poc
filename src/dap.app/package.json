@@ -12,7 +12,7 @@
     "axios": "^0.18.0",
     "connected-react-router": "^5.0.1",
     "graphql": "^14.0.2",
-    "immer": "^1.8.0",
+    "immer": "1.9.2",
     "material-ui-color-picker": "^2.1.1",
     "node-sass": "^4.10.0",
     "notistack": "^0.3.9",

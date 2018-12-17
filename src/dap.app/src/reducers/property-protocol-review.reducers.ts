@@ -28,28 +28,25 @@ export const propertyProtocolReviewReducers = (
       case GET_PROPERTY:
         draft.isPropertyBusy = true;
         draft.property = null;
-        return;
+        break;
       case GET_PROPERTY_SUCCESS:
         draft.isPropertyBusy = false;
         draft.property = action.payload;
-        return;
+        break;
       case GET_PROPERTY_ERROR:
         draft.isPropertyBusy = false;
-        return;
+        break;
 
       case GET_PROTOCOL:
         draft.isProtocolBusy = true;
         draft.protocol = null;
-        return;
+        break;
       case GET_PROTOCOL_SUCCESS:
         draft.isProtocolBusy = false;
         draft.protocol = action.payload;
-        return;
+        break;
       case GET_PROTOCOL_ERROR:
         draft.isProtocolBusy = false;
-        return;
-
-      default:
-        return state;
+        break;
     }
   });

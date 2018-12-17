@@ -22,19 +22,17 @@ export const propertyListReducers = (
     switch (action.type) {
       case CLEAR_PROPERTIES:
         draft.properties = [];
-        return;
+        break;
       case GET_PROPERTIES:
         draft.isBusy = true;
         draft.properties = [];
-        return;
+        break;
       case GET_PROPERTIES_SUCCESS:
         draft.isBusy = false;
         draft.properties = action.payload;
-        return;
+        break;
       case GET_PROPERTIES_ERROR:
         draft.isBusy = false;
-        return;
-      default:
-        return state;
+        break;
     }
   });

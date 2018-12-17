@@ -20,13 +20,11 @@ export const notificationManagerReducers = (
     switch (action.type) {
       case ENQUEUE_SNACKBAR:
         draft.notifications.push(action.payload);
-        return;
+        break;
       case REMOVE_SNACKBAR:
         draft.notifications.splice(
           findIndex(n => n.key.equals(action.payload), draft.notifications)
         );
-        return;
-      default:
-        return state;
+        break;
     }
   });
