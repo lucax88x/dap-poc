@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "cd src/dap.app && yarn install",
     "build": "yarn build-client && yarn build-server",
-    "build-client": "cd src/dap.app && yarn-build && cp -r build ../DAP.Web.App/wwwroot",
+    "build-client": "cd src/dap.app && yarn build && cp -r build ../DAP.Web.App/wwwroot",
     "build-server": "dotnet build src/DAP.sln",
     "test-server": "dotnet test src/DAP.sln"
   }
